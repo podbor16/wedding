@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//matvey-zlata//RU
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:rospis-2027-matvey-zlata@podbor16.github.io
+DTSTAMP:20261004T000000Z
+DTSTART:20270807T090000Z
+DTEND:20270807T110000Z
+SUMMARY:Роспись Матвея и Златы
+LOCATION:Красноярск\, проспект Мира\, 24Г\, Дом семейных торжеств
+DESCRIPTION:Регистрация в 16:00. Приходите за 15–20 минут.
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Завтра роспись Матвея и Златы
+END:VALARM
+END:VEVENT
+END:VCALENDAR
