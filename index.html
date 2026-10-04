@@ -167,6 +167,10 @@ footer b{color:var(--ink);font-weight:500}
     <button type="button" data-demo="pair">пара + место для спутника</button>
     <button type="button" data-demo="solo">один гость на «ты»</button>
     <button type="button" data-demo="nocode">без личной ссылки</button>
+    <span style="margin-left:6px">Фраза:</span>
+    <button type="button" data-tag="а мы женимся!">а мы женимся!</button>
+    <button type="button" data-tag="скоро муж и жена">скоро муж и жена</button>
+    <button type="button" data-tag="любовь, печать, ужин">любовь, печать, ужин</button>
   </div>
 </div>
 
@@ -176,6 +180,7 @@ footer b{color:var(--ink);font-weight:500}
       <span class="row"><span class="cap">М</span>атвей<span class="amp">&amp;</span></span>
       <span class="row"><span class="cap">З</span>лата</span>
     </h1>
+    <p class="yes" id="tagline"></p>
   </header>
 
   <section class="letter" id="letter">
@@ -188,7 +193,7 @@ footer b{color:var(--ink);font-weight:500}
       <span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span>
       <span class="d">02</span><span class="d">03</span><span class="d">04</span><span class="d">05</span><span class="d">06</span>
       <span class="d on" aria-label="7 августа 2027, день росписи">
-        <svg viewBox="0 0 52 48" aria-hidden="true"><path d="M26 45 C 10 33, 2 24, 3 14 C 4 6, 11 2, 17 3 C 21 4, 24 7, 26 11 C 28 7, 32 3, 37 3 C 44 3, 50 9, 49 16 C 48 26, 39 34, 26 45 Z" fill="var(--red)" filter="url(#rough)"/></svg>
+        <svg viewBox="0 0 52 48" aria-hidden="true"><path d="M26 45 C 18 39, 3 29, 3 15.5 C 3 8, 8.5 3, 15 3 C 19.5 3, 23.5 5.8, 26 10 C 28.5 5.8, 32.5 3, 37 3 C 43.5 3, 49 8, 49 15.5 C 49 29, 34 39, 26 45 Z" fill="var(--red)"/></svg>
         <span>07</span>
       </span>
       <span class="d">08</span>
@@ -237,6 +242,8 @@ footer b{color:var(--ink);font-weight:500}
 /* ================= НАСТРОЙКИ =================
    Всё, что может поменяться, — здесь. */
 const CONFIG = {
+  // фраза под именами
+  tagline: "а мы женимся!",
   design: "red",
   // цвет приглашения: "sky" — голубой, "light" — светло-голубой, "rose" — розовый, "green" — зелёный, "gold" — золотой
   palette: "sky",
@@ -250,7 +257,7 @@ const CONFIG = {
       title: "Регистрация",
       short: "Дом семейных торжеств",
       place: "Дом семейных торжеств, проспект Мира, 24Г",
-      hint: "Приходите минут за 15–20, чтобы спокойно собраться у входа.",
+      hint: "Начало церемонии в 16:00. Просим прийти на 15-20 минут пораньше, чтобы ничего не пропустить.",
       map: "https://yandex.ru/profile/-/CXa3ZKIp",
       main: true
     },
@@ -263,7 +270,7 @@ const CONFIG = {
       map: ""
     }
   ],
-  dress: "Дресс-кода нет: приходите в том, в чём вам удобно.",
+  dress: "Никаких правил по нарядам: для нас важнее всего, что вы будете рядом.",
   calendar: { file: "rospis.ics", start: "20270807T090000Z", end: "20270807T110000Z",
               title: "Роспись Матвея и Златы", location: "Красноярск, проспект Мира, 24Г, Дом семейных торжеств" },
   drinks: ["Шампанское", "Белое вино", "Красное вино", "Крепкое", "Не пью алкоголь"],
@@ -327,6 +334,8 @@ function jsonp(url, params){
 
 /* ================= СТАТИЧНЫЕ БЛОКИ ================= */
 function renderStatic(){
+  $("#tagline").textContent = CONFIG.tagline || "";
+  $("#tagline").hidden = !CONFIG.tagline;
   const days = Math.ceil((new Date(CONFIG.date + "T16:00:00+07:00") - Date.now()) / 864e5);
   $("#countdown").textContent = days > 0 ? `до росписи ${days} ${plural(days,"день","дня","дней")}` : "";
 
@@ -340,10 +349,9 @@ function renderStatic(){
   const main = CONFIG.steps.find(s => s.main) || CONFIG.steps[0];
   $("#venue").innerHTML = `
     <p class="v-place">${esc(main.place)}</p>
-    <p class="v-time">Начало в ${esc(main.time)}</p>
     ${main.hint ? `<p class="v-hint">${esc(main.hint)}</p>` : ""}`;
   $("#venueBtns").innerHTML = `
-    ${main.map ? `<a class="btn wide" href="${esc(main.map)}" target="_blank" rel="noopener">посмотреть на карте</a>` : ""}
+    ${main.map ? `<a class="btn wide" href="${esc(main.map)}" target="_blank" rel="noopener">Посмотреть на карте</a>` : ""}
     <span id="cal" class="cal"></span>`;
   $("#dress").textContent = CONFIG.dress;
 
@@ -359,10 +367,10 @@ function renderStatic(){
   const isAndroid = /Android/.test(ua);
   const cal = $("#cal");
   if (cal) cal.innerHTML = isIOS
-    ? `<a class="btn wide" href="${c.file}">добавить в календарь</a>`
+    ? `<a class="btn wide" href="${c.file}">Добавить в календарь</a>`
     : isAndroid
-      ? `<a class="btn wide" href="${esc(gcal)}" target="_blank" rel="noopener">добавить в календарь</a>`
-      : `<a class="btn wide" href="${esc(gcal)}" target="_blank" rel="noopener">добавить в календарь</a>`;
+      ? `<a class="btn wide" href="${esc(gcal)}" target="_blank" rel="noopener">Добавить в календарь</a>`
+      : `<a class="btn wide" href="${esc(gcal)}" target="_blank" rel="noopener">Добавить в календарь</a>`;
 
   const cs = CONFIG.contacts.filter(x => x.phone || x.telegram);
   $("#contacts").innerHTML = cs.length
@@ -572,6 +580,10 @@ async function load(){
       renderLetter("ok");
     };
     bar.querySelectorAll("button[data-demo]").forEach(b => b.onclick = () => show(b.dataset.demo));
+    const tag = t => { $("#tagline").textContent = t; $("#tagline").hidden = false;
+      bar.querySelectorAll("button[data-tag]").forEach(b => b.setAttribute("aria-pressed", b.dataset.tag === t)); };
+    bar.querySelectorAll("button[data-tag]").forEach(b => b.onclick = () => tag(b.dataset.tag));
+    tag(CONFIG.tagline);
     const pal = key => { applyPalette(key); bar.querySelectorAll("button[data-pal]").forEach(b => b.setAttribute("aria-pressed", b.dataset.pal === key)); };
     bar.querySelectorAll("button[data-pal]").forEach(b => b.onclick = () => pal(b.dataset.pal));
     pal(CONFIG.palette);
