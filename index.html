@@ -119,6 +119,30 @@ footer .names-s{font:400 22px/1.3 var(--display);color:var(--river);margin:0 0 6
 .demo button[aria-pressed=true]{background:#E9EEEC;color:var(--ink)}
 [hidden]{display:none!important}
 
+/* ---------- цветовые варианты: CONFIG.palette = "sky" | "light" | "rose" ---------- */
+html[data-palette="light"]{
+  --bg:#FBFDFF; --ink:#1A2630; --muted:#5E717A;
+  --sky:#E3F3FF; --sky-hover:#D2EAFC;
+  --river:#2E6F8E; --river-soft:#F1F8FF; --line:#D5E2EC;
+}
+html[data-palette="rose"]{
+  --bg:#FEFBFB; --ink:#2B1F23; --muted:#6E5A60;
+  --sky:#FAE3E8; --sky-hover:#F5D2DA;
+  --river:#8C3D55; --river-soft:#FDF2F4; --line:#EDDADF;
+}
+html[data-palette="green"]{
+  --bg:#FBFDFA; --ink:#1C2A1F; --muted:#5D6E5F;
+  --sky:#DCF7DC; --sky-hover:#CBF0CB;
+  --river:#2F6B3A; --river-soft:#F1FBF0; --line:#D6E8D3;
+}
+html[data-palette="gold"]{
+  --bg:#FDFBF6; --ink:#2A2418; --muted:#6E6352;
+  --sky:#EBD9A6; --sky-hover:#E3CC8C;
+  --river:#7A5A17; --river-soft:#FAF4E4; --line:#E7DCC0;
+  --larch:#9A7424;
+}
+html[data-palette="light"] .river path:not(.wide),html[data-palette="rose"] .river path:not(.wide),html[data-palette="green"] .river path:not(.wide){opacity:.35}
+
 @media (min-width:760px){
   body{font-size:18px}
   .hero{justify-content:center}
@@ -140,6 +164,12 @@ footer .names-s{font:400 22px/1.3 var(--display);color:var(--river);margin:0 0 6
     <button type="button" data-demo="pair">пара + место для спутника</button>
     <button type="button" data-demo="solo">один гость на «ты»</button>
     <button type="button" data-demo="nocode">без личной ссылки</button>
+    <span style="margin-left:8px">Цвет:</span>
+    <button type="button" data-pal="sky">голубой</button>
+    <button type="button" data-pal="light">светло-голубой</button>
+    <button type="button" data-pal="rose">розовый</button>
+    <button type="button" data-pal="green">зелёный</button>
+    <button type="button" data-pal="gold">золотой</button>
   </div>
 </div>
 
@@ -192,11 +222,12 @@ footer .names-s{font:400 22px/1.3 var(--display);color:var(--river);margin:0 0 6
 /* ================= НАСТРОЙКИ =================
    Всё, что может поменяться, — здесь. */
 const CONFIG = {
+  // цвет приглашения: "sky" — голубой, "light" — светло-голубой, "rose" — розовый, "green" — зелёный, "gold" — золотой
+  palette: "sky",
   // адрес веб-приложения Apps Script (после «Развернуть → Новое развертывание»)
   apiUrl: "https://script.google.com/macros/s/AKfycbzmQbXmy9Qr4LAeplkEGwAAI-QbCi75akPETopO1cmfmIGykNJPu66WrqZEsdoGJ7vIGw/exec",
   event: "rospis",
   date: "2027-08-07",
-  rsvpDeadline: "1 июля 2027",
   steps: [
     {
       time: "16:00",
@@ -215,14 +246,22 @@ const CONFIG = {
     }
   ],
   dress: "Дресс-кода нет: приходите в том, в чём вам удобно.",
-  calendar: { start: "20270807T090000Z", end: "20270807T110000Z",
+  calendar: { file: "rospis.ics", start: "20270807T090000Z", end: "20270807T110000Z",
               title: "Роспись Матвея и Златы", location: "Красноярск, проспект Мира, 24Г, Дом семейных торжеств" },
   drinks: ["Шампанское", "Белое вино", "Красное вино", "Крепкое", "Не пью алкоголь"],
   contacts: [
-    // { name: "Матвей", phone: "+79990000000", telegram: "username" },
-    // { name: "Злата",  phone: "+79990000000", telegram: "username" }
+    { name: "Матвей", phone: "+79535965936", phoneText: "+7 953 596-59-36", telegram: "podbor_16" },
+    { name: "Злата",  phone: "+79283301173", phoneText: "+7 928 330-11-73", telegram: "zlatyssya" }
   ]
 };
+
+const PALETTE_BAR = { sky:"#A6DDF5", light:"#E3F3FF", rose:"#FAE3E8", green:"#DCF7DC", gold:"#EBD9A6" };
+function applyPalette(name){
+  document.documentElement.dataset.palette = name;
+  const m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.content = PALETTE_BAR[name] || PALETTE_BAR.sky;
+}
+applyPalette(CONFIG.palette);
 
 const DEMO = {
   pair: { ok:true, code:"DEMO", appeal:"Анна и Дмитрий", tone:"вы", seats:3,
@@ -237,11 +276,11 @@ const DEMO = {
 function voice(inv){
   const plural = inv.people.length > 1 || /,| и /.test(inv.appeal || "");
   if (plural) return {plural, greet:`Дорогие ${inv.appeal}!`, you:"вы", youGen:"вас", youIns:"вами",
-    answer:"ответьте", can:"сможете", come:"придёте", your:"Ваш ответ", write:"впишите", tell:"напишите"};
+    answer:"ответьте", can:"сможете", come:"придёте", your:"Ваш ответ", write:"впишите", tell:"напишите", mark:"отметьте", change:"поменяйте"};
   if (inv.tone === "ты") return {plural, greet:`Привет, ${inv.appeal}!`, you:"ты", youGen:"тебя", youIns:"тобой",
-    answer:"ответь", can:"сможешь", come:"придёшь", your:"Твой ответ", write:"впиши", tell:"напиши"};
+    answer:"ответь", can:"сможешь", come:"придёшь", your:"Твой ответ", write:"впиши", tell:"напиши", mark:"отметь", change:"поменяй"};
   return {plural, greet:`Здравствуйте, ${inv.appeal}!`, you:"Вы", youGen:"Вас", youIns:"Вами",
-    answer:"ответьте", can:"сможете", come:"придёте", your:"Ваш ответ", write:"впишите", tell:"напишите"};
+    answer:"ответьте", can:"сможете", come:"придёте", your:"Ваш ответ", write:"впишите", tell:"напишите", mark:"отметьте", change:"поменяйте"};
 }
 const ANSWER_LABELS = [["Придёт","Буду"],["Не придёт","Не смогу"],["Под вопросом","Пока не знаю"]];
 
@@ -281,24 +320,36 @@ function renderStatic(){
       ${s.hint ? `<p class="hint">${esc(s.hint)}</p>` : ""}
       ${s.map || s.main ? `<div class="btns">
         ${s.map ? `<a class="btn" href="${esc(s.map)}" target="_blank" rel="noopener">Открыть на карте</a>` : ""}
-        ${s.main ? `<a class="btn" id="ics" download="rospis-matvey-zlata.ics">Добавить в календарь</a>` : ""}
+        ${s.main ? `<span id="cal" class="btns" style="margin:0"></span>` : ""}
       </div>` : ""}
     </li>`).join("");
   $("#dress").textContent = CONFIG.dress;
 
+  // Календарь: iPhone открывает файл .ics сразу в «Календаре» (файл лежит рядом с index.html),
+  // Android — Google Календарь, компьютер — обе кнопки.
   const c = CONFIG.calendar;
-  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//matvey-zlata//RU","BEGIN:VEVENT",
-    "UID:rospis-2027-matvey-zlata","DTSTAMP:20261004T000000Z",`DTSTART:${c.start}`,`DTEND:${c.end}`,
-    `SUMMARY:${c.title}`,`LOCATION:${c.location.replace(/,/g,"\\,")}`,
-    "BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:Завтра роспись","END:VALARM",
-    "END:VEVENT","END:VCALENDAR"].join("\r\n");
-  const a = $("#ics");
-  if (a) a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+  const gcal = "https://calendar.google.com/calendar/render?" + new URLSearchParams({
+    action: "TEMPLATE", text: c.title, dates: `${c.start}/${c.end}`,
+    location: c.location, details: "Приглашение: " + location.origin + location.pathname
+  });
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/.test(ua);
+  const cal = $("#cal");
+  if (cal) cal.innerHTML = isIOS
+    ? `<a class="btn" href="${c.file}">Добавить в календарь</a>`
+    : isAndroid
+      ? `<a class="btn" href="${esc(gcal)}" target="_blank" rel="noopener">Добавить в календарь</a>`
+      : `<a class="btn" href="${esc(gcal)}" target="_blank" rel="noopener">Google Календарь</a>
+         <a class="btn" href="${c.file}" download>Другой календарь (файл)</a>`;
 
   const cs = CONFIG.contacts.filter(x => x.phone || x.telegram);
   $("#contacts").innerHTML = cs.length
-    ? "Если остались вопросы, пишите нам: " + cs.map(x =>
-        `${esc(x.name)} ${x.telegram ? `<a href="https://t.me/${esc(x.telegram)}">в Telegram</a>` : ""}${x.telegram && x.phone ? " или " : ""}${x.phone ? `<a href="tel:${esc(x.phone)}">${esc(x.phone)}</a>` : ""}`).join("; ")
+    ? `Если остались вопросы, пишите или звоните:<br>` + cs.map(x => [
+        `<b>${esc(x.name)}</b>`,
+        x.phone ? `<a href="tel:${esc(x.phone)}">${esc(x.phoneText || x.phone)}</a>` : "",
+        x.telegram ? `<a href="https://t.me/${esc(x.telegram)}" target="_blank" rel="noopener">Telegram</a>` : ""
+      ].filter(Boolean).join(", ")).join("<br>")
     : "Красноярск, 7 августа 2027";
 }
 
@@ -313,7 +364,7 @@ function renderLetter(state){
       notfound: "Не нашли приглашение по этой ссылке. Проверьте, что ссылка скопирована целиком, или напишите нам.",
       offline: "Не получилось загрузить ваше приглашение. Проверьте интернет и обновите страницу."
     }[state];
-    box.innerHTML = `<p class="greet">Седьмого августа мы станем мужем и женой</p><p>${text}</p>`;
+    box.innerHTML = `<p class="greet">7 августа мы станем мужем и женой</p><p>${text}</p>`;
     $("#rsvp").hidden = true;
     return;
   }
@@ -327,8 +378,8 @@ function renderLetter(state){
   }
   box.innerHTML = `
     <p class="greet">${esc(v.greet)}</p>
-    <p>Седьмого августа 2027 года мы станем мужем и женой. Нам очень хочется разделить этот день с ${v.youIns}: сначала регистрация в Доме семейных торжеств, а потом ужин в кругу самых близких.</p>
-    <p>Пожалуйста, ${v.answer} до ${esc(CONFIG.rsvpDeadline)}, ${v.can} ли ${v.plural ? "прийти" : "прийти"}. Это займёт минуту.</p>
+    <p>7 августа 2027 года мы станем мужем и женой. Нам очень хочется разделить этот день с ${v.youIns}: сначала регистрация в Доме семейных торжеств, а потом ужин в кругу самых близких.</p>
+    <p>Ниже можно отметить, ${v.can} ли ${v.you} прийти. Если планы потом поменяются, ответ можно будет изменить по этой же ссылке.</p>
     <p class="sign">Матвей и Злата</p>`;
   renderForm();
 }
@@ -370,7 +421,7 @@ function renderForm(){
       <legend>${v.plural ? "Придёте не одни?" : (v.you === "ты" ? "Придёшь не один?" : "Придёте не одни?")}</legend>
       <p class="hint" style="margin-top:-6px">В приглашении есть место ещё для ${freeSeats} ${plural(freeSeats,"человека","человек","человек")}. ${v.write[0].toUpperCase()+v.write.slice(1)} имя и фамилию, чтобы мы подготовили место.</p>
       <div id="extras"></div>
-      <div class="btns"><button type="button" class="btn" id="addExtra">Добавить спутника</button></div>
+      <div class="btns"><button type="button" class="btn" id="addExtra">Добавить спутника или ребёнка</button></div>
     </fieldset>` : ""}
 
     <div class="field">
@@ -400,7 +451,7 @@ function renderForm(){
       const row = document.createElement("div");
       row.className = "extra";
       row.innerHTML = `
-        <input type="text" placeholder="Имя и фамилия" aria-label="Имя спутника" value="${esc(name)}" maxlength="80">
+        <input type="text" placeholder="Имя и фамилия" aria-label="Имя и фамилия гостя" value="${esc(name)}" maxlength="80">
         <label class="check"><input type="checkbox" ${child ? "checked" : ""}> ребёнок</label>
         <button type="button" class="icon-btn" aria-label="Убрать">×</button>`;
       row.querySelector(".icon-btn").onclick = () => { row.remove(); sync(); };
@@ -478,7 +529,7 @@ function showDone(people, extras){
       ${people.map(p => `<li>${esc(shortName(p.name))}: ${label(p.answer)}</li>`).join("")}
       ${extras.map(x => `<li>${esc(x.name)}${x.child ? " (ребёнок)" : ""}: будет</li>`).join("")}
     </ul>
-    <p class="hint" style="margin:0 0 14px">Если планы изменятся, ${v.tell} нам или поменяйте ответ здесь до ${esc(CONFIG.rsvpDeadline)}.</p>
+    <p class="hint" style="margin:0 0 14px">Если планы изменятся, ${v.change} ответ здесь или ${v.tell} нам.</p>
     <button type="button" class="btn" id="edit">Изменить ответ</button>
   </div>`;
   $("#edit").onclick = () => { renderForm(); $("#rsvp").scrollIntoView({behavior:"smooth"}); };
@@ -494,12 +545,15 @@ async function load(){
     const bar = $("#demoBar");
     bar.hidden = false;
     const show = key => {
-      bar.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.demo === key));
+      bar.querySelectorAll("button[data-demo]").forEach(b => b.setAttribute("aria-pressed", b.dataset.demo === key));
       if (key === "nocode") return renderLetter("nocode");
       INV = JSON.parse(JSON.stringify(DEMO[key]));
       renderLetter("ok");
     };
-    bar.querySelectorAll("button").forEach(b => b.onclick = () => show(b.dataset.demo));
+    bar.querySelectorAll("button[data-demo]").forEach(b => b.onclick = () => show(b.dataset.demo));
+    const pal = key => { applyPalette(key); bar.querySelectorAll("button[data-pal]").forEach(b => b.setAttribute("aria-pressed", b.dataset.pal === key)); };
+    bar.querySelectorAll("button[data-pal]").forEach(b => b.onclick = () => pal(b.dataset.pal));
+    pal(CONFIG.palette);
     return show("pair");
   }
   if (!code) return renderLetter("nocode");
