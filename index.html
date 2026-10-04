@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Матвей и Злата: роспись 07.08.2027</title>
+<meta name="description" content="Приглашение на регистрацию брака Матвея и Златы, 7 августа 2027, Красноярск">
+<meta property="og:title" content="Матвей и Злата приглашают на роспись">
+<meta property="og:description" content="7 августа 2027, Красноярск, Дом семейных торжеств">
+<meta name="theme-color" content="#A6DDF5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Prata&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7FAFB;        /* светлый фон */
+  --ink:#1A2630;
+  --muted:#566871;
+  --sky:#A6DDF5;       /* основной голубой */
+  --sky-hover:#8FD2F0;
+  --river:#1F5E7E;     /* глубокий голубой — для текста и рамок */
+  --river-soft:#E4F4FC;/* светлый голубой */
+  --line:#C3D3DB;
+  --larch:#A47F2E;     /* лиственница в августе */
+  --white:#FFFFFF;
+  --danger:#9B2C2C;
+  --radius-s:8px;
+  --radius-l:18px;
+  --display:"Prata", Georgia, "Times New Roman", serif;
+  --text:"Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--text);}
+a{color:var(--river);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--larch);outline-offset:3px;border-radius:4px}
+.wrap{max-width:620px;margin:0 auto;padding:0 22px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:92svh;display:flex;flex-direction:column;justify-content:flex-end;padding:40px 0 56px;overflow:hidden}
+.river{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.river path{fill:none;stroke:var(--river);stroke-width:1.4;stroke-linecap:round;opacity:.55}
+.river path.wide{stroke:var(--sky);stroke-width:26;opacity:1}
+.hero .wrap{position:relative;width:100%}
+.place{margin:0 0 28px;color:var(--muted);font-size:15px}
+.names{font:400 clamp(64px,19vw,132px)/.92 var(--display);letter-spacing:-.01em;margin:0;color:var(--river)}
+.names span{display:block}
+.names .and{font-size:.42em;line-height:1.4;color:var(--ink);padding-left:.12em}
+.date{display:flex;align-items:baseline;gap:14px;margin:34px 0 0;font:400 22px/1.2 var(--display)}
+.date b{font-weight:400;color:var(--larch);font-size:44px;letter-spacing:.02em}
+.countdown{margin:10px 0 0;color:var(--muted);font-size:15px}
+
+/* ---------- sections ---------- */
+section{padding:56px 0}
+h2{font:400 32px/1.15 var(--display);margin:0 0 20px;color:var(--river)}
+.letter p{margin:0 0 14px;max-width:34em}
+.greet{font:400 26px/1.3 var(--display);margin:0 0 18px}
+.sign{margin-top:22px;font-family:var(--display);font-size:20px}
+
+/* timeline of the day — a real sequence */
+.day{list-style:none;margin:0;padding:0;position:relative}
+.day::before{content:"";position:absolute;left:7px;top:10px;bottom:10px;width:2px;background:var(--sky)}
+.day li{position:relative;padding:0 0 34px 40px}
+.day li:last-child{padding-bottom:0}
+.day li::before{content:"";position:absolute;left:0;top:8px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid var(--river)}
+.day li.main::before{background:var(--larch);border-color:var(--larch)}
+.time{font:400 28px/1.1 var(--display);color:var(--ink)}
+.what{font-weight:600;margin:4px 0 2px}
+.where{color:var(--muted);margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:999px;border:1.5px solid var(--river);background:transparent;color:var(--river);font:500 15px/1.2 var(--text);text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--river-soft)}
+.btn.solid{background:var(--sky);border-color:var(--sky);color:var(--ink)}
+.btn.solid:hover{background:var(--sky-hover);border-color:var(--sky-hover)}
+.btn[disabled]{opacity:.55;cursor:progress}
+.note{margin:22px 0 0;padding:16px 18px;border-radius:var(--radius-s);background:var(--river-soft);font-size:15.5px}
+
+/* ---------- rsvp ---------- */
+.rsvp{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.lead{color:var(--muted);margin:-8px 0 26px}
+fieldset{border:0;margin:0 0 28px;padding:0}
+legend{font-weight:600;margin:0 0 12px;padding:0}
+.person{display:grid;gap:10px;padding:16px 0;border-top:1px solid var(--river-soft)}
+.person:first-of-type{border-top:0;padding-top:0}
+.pname{font-size:18px;font-weight:500}
+.pname small{font-weight:400;color:var(--muted);margin-left:6px;font-size:14px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:flex;align-items:center;justify-content:center;text-align:center;min-height:46px;padding:8px 6px;border:1.5px solid var(--line);border-radius:var(--radius-s);font-size:15px;cursor:pointer;user-select:none;line-height:1.2}
+.seg input:checked+label{border-color:var(--river);background:var(--sky);color:var(--ink);font-weight:500}
+.seg input:focus-visible+label{outline:2px solid var(--larch);outline-offset:2px}
+.extra{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;margin-top:10px}
+.check{display:flex;align-items:center;gap:6px;font-size:15px;white-space:nowrap}
+.check input{width:20px;height:20px;accent-color:var(--river)}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--muted);font-size:20px;cursor:pointer}
+input[type=text],textarea{width:100%;font:400 16px/1.4 var(--text);color:var(--ink);padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--radius-s);background:var(--white)}
+input[type=text]:focus,textarea:focus{border-color:var(--river);outline:none}
+textarea{min-height:84px;resize:vertical}
+.field{margin:0 0 22px}
+.field label{display:block;font-weight:600;margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{padding:9px 14px;border:1.5px solid var(--line);border-radius:999px;font-size:15px;cursor:pointer;font-weight:400;margin:0}
+.chips input:checked+label{border-color:var(--river);background:var(--sky);color:var(--ink)}
+.chips input:focus-visible+label{outline:2px solid var(--larch);outline-offset:2px}
+.hint{color:var(--muted);font-size:14.5px;margin:6px 0 0}
+.error{color:var(--danger);font-size:15px;margin:12px 0 0}
+.done{padding:22px;border-radius:var(--radius-l);background:var(--river-soft)}
+.done h3{font:400 26px/1.2 var(--display);margin:0 0 10px;color:var(--river)}
+.done ul{margin:0 0 16px;padding-left:20px}
+.status{padding:28px 0;color:var(--muted)}
+
+footer{padding:48px 0 64px;color:var(--muted);font-size:15px}
+footer .names-s{font:400 22px/1.3 var(--display);color:var(--river);margin:0 0 6px}
+
+.demo{position:sticky;top:0;z-index:5;background:var(--ink);color:#E9EEEC;font-size:13.5px;padding:8px 0}
+.demo .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.demo button{font:500 13px var(--text);padding:6px 10px;border-radius:999px;border:1px solid #6E7F7B;background:transparent;color:inherit;cursor:pointer}
+.demo button[aria-pressed=true]{background:#E9EEEC;color:var(--ink)}
+[hidden]{display:none!important}
+
+@media (min-width:760px){
+  body{font-size:18px}
+  .hero{justify-content:center}
+  section{padding:80px 0}
+}
+@media (prefers-reduced-motion:no-preference){
+  .river path.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:flow 3.2s cubic-bezier(.45,.05,.25,1) .2s forwards}
+  .river path.wide{opacity:0;animation:mist 2.4s ease .9s forwards}
+  @keyframes flow{to{stroke-dashoffset:0}}
+  @keyframes mist{to{opacity:1}}
+}
+</style>
+</head>
+<body>
+
+<div class="demo" id="demoBar" hidden>
+  <div class="wrap">
+    <span>Демо, так увидит гость:</span>
+    <button type="button" data-demo="pair">пара + место для спутника</button>
+    <button type="button" data-demo="solo">один гость на «ты»</button>
+    <button type="button" data-demo="nocode">без личной ссылки</button>
+  </div>
+</div>
+
+<header class="hero">
+  <svg class="river" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path class="wide" d="M330 -20 C 250 120, 400 220, 300 340 S 120 520, 190 640 S 120 780, 60 830"/>
+    <path class="draw" d="M330 -20 C 250 120, 400 220, 300 340 S 120 520, 190 640 S 120 780, 60 830"/>
+  </svg>
+  <div class="wrap">
+    <p class="place">Красноярск</p>
+    <h1 class="names"><span>Матвей</span><span class="and">и</span><span>Злата</span></h1>
+    <p class="date"><b>07.08.2027</b><span>суббота</span></p>
+    <p class="countdown" id="countdown"></p>
+  </div>
+</header>
+
+<main>
+  <section class="letter">
+    <div class="wrap" id="letter">
+      <p class="status">Открываем приглашение…</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Как пройдёт день</h2>
+      <ol class="day" id="day"></ol>
+      <p class="note" id="dress"></p>
+    </div>
+  </section>
+
+  <section class="rsvp" id="rsvp" hidden>
+    <div class="wrap">
+      <h2 id="rsvpTitle">Ваш ответ</h2>
+      <p class="lead" id="rsvpLead"></p>
+      <form id="form" novalidate></form>
+      <div id="done" hidden></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="names-s">Матвей и Злата</p>
+    <p id="contacts"></p>
+  </div>
+</footer>
+
+<script>
+/* ================= НАСТРОЙКИ =================
+   Всё, что может поменяться, — здесь. */
+const CONFIG = {
+  // адрес веб-приложения Apps Script (после «Развернуть → Новое развертывание»)
+  apiUrl: "https://script.google.com/macros/s/AKfycbzmQbXmy9Qr4LAeplkEGwAAI-QbCi75akPETopO1cmfmIGykNJPu66WrqZEsdoGJ7vIGw/exec",
+  event: "rospis",
+  date: "2027-08-07",
+  rsvpDeadline: "1 июля 2027",
+  steps: [
+    {
+      time: "16:00",
+      title: "Регистрация брака",
+      place: "Дом семейных торжеств, проспект Мира, 24Г",
+      hint: "Приходите минут за 15–20, чтобы спокойно собраться у входа.",
+      map: "https://yandex.ru/profile/-/CXa3ZKIp",
+      main: true
+    },
+    {
+      time: "Вечер",
+      title: "Ужин с самыми близкими",
+      place: "Место сообщим ближе к дате, по этой же ссылке",
+      hint: "",
+      map: ""
+    }
+  ],
+  dress: "Дресс-кода нет: приходите в том, в чём вам удобно.",
+  calendar: { start: "20270807T090000Z", end: "20270807T110000Z",
+              title: "Роспись Матвея и Златы", location: "Красноярск, проспект Мира, 24Г, Дом семейных торжеств" },
+  drinks: ["Шампанское", "Белое вино", "Красное вино", "Крепкое", "Не пью алкоголь"],
+  contacts: [
+    // { name: "Матвей", phone: "+79990000000", telegram: "username" },
+    // { name: "Злата",  phone: "+79990000000", telegram: "username" }
+  ]
+};
+
+const DEMO = {
+  pair: { ok:true, code:"DEMO", appeal:"Анна и Дмитрий", tone:"вы", seats:3,
+          events:{rospis:true, svadba:true},
+          people:[{name:"Анна Иванова"},{name:"Дмитрий Иванов"}], menu:"", drinks:"", comment:"" },
+  solo: { ok:true, code:"DEMO", appeal:"Егор", tone:"ты", seats:1,
+          events:{rospis:true, svadba:true},
+          people:[{name:"Егор Пеньков"}], menu:"", drinks:"", comment:"" }
+};
+
+/* ================= ТЕКСТЫ ================= */
+function voice(inv){
+  const plural = inv.people.length > 1 || /,| и /.test(inv.appeal || "");
+  if (plural) return {plural, greet:`Дорогие ${inv.appeal}!`, you:"вы", youGen:"вас", youIns:"вами",
+    answer:"ответьте", can:"сможете", come:"придёте", your:"Ваш ответ", write:"впишите", tell:"напишите"};
+  if (inv.tone === "ты") return {plural, greet:`Привет, ${inv.appeal}!`, you:"ты", youGen:"тебя", youIns:"тобой",
+    answer:"ответь", can:"сможешь", come:"придёшь", your:"Твой ответ", write:"впиши", tell:"напиши"};
+  return {plural, greet:`Здравствуйте, ${inv.appeal}!`, you:"Вы", youGen:"Вас", youIns:"Вами",
+    answer:"ответьте", can:"сможете", come:"придёте", your:"Ваш ответ", write:"впишите", tell:"напишите"};
+}
+const ANSWER_LABELS = [["Придёт","Буду"],["Не придёт","Не смогу"],["Под вопросом","Пока не знаю"]];
+
+/* ================= УТИЛИТЫ ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shortName = n => String(n).replace(/\s*\(.*?\)\s*/g," ").trim();
+const plural = (n, one, few, many) => {
+  const m10 = n % 10, m100 = n % 100;
+  return (m10 === 1 && m100 !== 11) ? one : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? few : many;
+};
+
+function jsonp(url, params){
+  return new Promise((resolve, reject) => {
+    const cb = "cb" + Math.random().toString(36).slice(2);
+    const q = new URLSearchParams({...params, callback: cb, t: Date.now()});
+    const s = document.createElement("script");
+    const timer = setTimeout(() => { cleanup(); reject(new Error("timeout")); }, 15000);
+    function cleanup(){ clearTimeout(timer); delete window[cb]; s.remove(); }
+    window[cb] = data => { cleanup(); resolve(data); };
+    s.onerror = () => { cleanup(); reject(new Error("network")); };
+    s.src = url + (url.includes("?") ? "&" : "?") + q;
+    document.head.appendChild(s);
+  });
+}
+
+/* ================= СТАТИЧНЫЕ БЛОКИ ================= */
+function renderStatic(){
+  const days = Math.ceil((new Date(CONFIG.date + "T16:00:00+07:00") - Date.now()) / 864e5);
+  $("#countdown").textContent = days > 0 ? `До росписи ${days} ${plural(days,"день","дня","дней")}` : "";
+
+  $("#day").innerHTML = CONFIG.steps.map(s => `
+    <li class="${s.main ? "main" : ""}">
+      <div class="time">${esc(s.time)}</div>
+      <p class="what">${esc(s.title)}</p>
+      <p class="where">${esc(s.place)}</p>
+      ${s.hint ? `<p class="hint">${esc(s.hint)}</p>` : ""}
+      ${s.map || s.main ? `<div class="btns">
+        ${s.map ? `<a class="btn" href="${esc(s.map)}" target="_blank" rel="noopener">Открыть на карте</a>` : ""}
+        ${s.main ? `<a class="btn" id="ics" download="rospis-matvey-zlata.ics">Добавить в календарь</a>` : ""}
+      </div>` : ""}
+    </li>`).join("");
+  $("#dress").textContent = CONFIG.dress;
+
+  const c = CONFIG.calendar;
+  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//matvey-zlata//RU","BEGIN:VEVENT",
+    "UID:rospis-2027-matvey-zlata","DTSTAMP:20261004T000000Z",`DTSTART:${c.start}`,`DTEND:${c.end}`,
+    `SUMMARY:${c.title}`,`LOCATION:${c.location.replace(/,/g,"\\,")}`,
+    "BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:Завтра роспись","END:VALARM",
+    "END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const a = $("#ics");
+  if (a) a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+
+  const cs = CONFIG.contacts.filter(x => x.phone || x.telegram);
+  $("#contacts").innerHTML = cs.length
+    ? "Если остались вопросы, пишите нам: " + cs.map(x =>
+        `${esc(x.name)} ${x.telegram ? `<a href="https://t.me/${esc(x.telegram)}">в Telegram</a>` : ""}${x.telegram && x.phone ? " или " : ""}${x.phone ? `<a href="tel:${esc(x.phone)}">${esc(x.phone)}</a>` : ""}`).join("; ")
+    : "Красноярск, 7 августа 2027";
+}
+
+/* ================= ПРИГЛАШЕНИЕ ================= */
+let INV = null;
+
+function renderLetter(state){
+  const box = $("#letter");
+  if (state === "nocode" || state === "notfound" || state === "offline"){
+    const text = {
+      nocode: "Это приглашение на нашу роспись. Отправить ответ можно по личной ссылке из нашего сообщения.",
+      notfound: "Не нашли приглашение по этой ссылке. Проверьте, что ссылка скопирована целиком, или напишите нам.",
+      offline: "Не получилось загрузить ваше приглашение. Проверьте интернет и обновите страницу."
+    }[state];
+    box.innerHTML = `<p class="greet">Седьмого августа мы станем мужем и женой</p><p>${text}</p>`;
+    $("#rsvp").hidden = true;
+    return;
+  }
+  const v = voice(INV);
+  if (!INV.events.rospis){
+    box.innerHTML = `<p class="greet">${esc(v.greet)}</p>
+      <p>Свадьбу мы празднуем летом 2028 года, и ${v.you} в списке наших гостей. Подробности появятся по этой же ссылке ближе к дате.</p>
+      <p class="sign">Матвей и Злата</p>`;
+    $("#rsvp").hidden = true;
+    return;
+  }
+  box.innerHTML = `
+    <p class="greet">${esc(v.greet)}</p>
+    <p>Седьмого августа 2027 года мы станем мужем и женой. Нам очень хочется разделить этот день с ${v.youIns}: сначала регистрация в Доме семейных торжеств, а потом ужин в кругу самых близких.</p>
+    <p>Пожалуйста, ${v.answer} до ${esc(CONFIG.rsvpDeadline)}, ${v.can} ли ${v.plural ? "прийти" : "прийти"}. Это займёт минуту.</p>
+    <p class="sign">Матвей и Злата</p>`;
+  renderForm();
+}
+
+function renderForm(){
+  const v = voice(INV);
+  $("#rsvp").hidden = false;
+  $("#done").hidden = true;
+  const form = $("#form");
+  form.hidden = false;
+  $("#rsvpTitle").textContent = v.your;
+  $("#rsvpLead").textContent = v.plural ? "Отметьте, пожалуйста, за каждого." : "";
+  $("#rsvpLead").hidden = !v.plural;
+
+  const ansKey = CONFIG.event === "svadba" ? "answerSvadba" : "answerRospis";
+  const main = INV.people.filter(p => !p.fromSite);
+  const extras = INV.people.filter(p => p.fromSite);
+  const freeSeats = Math.max(0, (INV.seats || 0) - main.length);
+
+  const personRow = (p, i) => `
+    <div class="person">
+      <div class="pname">${esc(shortName(p.name))}${p.child ? "<small>ребёнок</small>" : ""}</div>
+      <div class="seg" role="radiogroup" aria-label="${esc(shortName(p.name))}">
+        ${ANSWER_LABELS.map(([val,label], j) => `
+          <input type="radio" id="p${i}_${j}" name="p${i}" value="${val}" ${p[ansKey] === val ? "checked" : ""}>
+          <label for="p${i}_${j}">${label}</label>`).join("")}
+      </div>
+    </div>`;
+
+  const selected = String(INV.drinks || "").split(/,\s*/).filter(Boolean);
+  form.innerHTML = `
+    <fieldset>
+      <legend>${v.plural ? "Кто придёт" : `${v.you === "ты" ? "Придёшь" : "Придёте"}?`}</legend>
+      ${main.map(personRow).join("")}
+    </fieldset>
+
+    ${freeSeats ? `
+    <fieldset id="extrasBox">
+      <legend>${v.plural ? "Придёте не одни?" : (v.you === "ты" ? "Придёшь не один?" : "Придёте не одни?")}</legend>
+      <p class="hint" style="margin-top:-6px">В приглашении есть место ещё для ${freeSeats} ${plural(freeSeats,"человека","человек","человек")}. ${v.write[0].toUpperCase()+v.write.slice(1)} имя и фамилию, чтобы мы подготовили место.</p>
+      <div id="extras"></div>
+      <div class="btns"><button type="button" class="btn" id="addExtra">Добавить спутника</button></div>
+    </fieldset>` : ""}
+
+    <div class="field">
+      <label for="menu">Ограничения в еде или аллергии</label>
+      <textarea id="menu" maxlength="500" placeholder="Например: не ем мясо, аллергия на орехи">${esc(INV.menu)}</textarea>
+    </div>
+
+    <div class="field">
+      <label id="drinksLbl">Что ${v.you === "ты" ? "предпочитаешь" : "предпочитаете"} пить на ужине</label>
+      <div class="chips" role="group" aria-labelledby="drinksLbl">
+        ${CONFIG.drinks.map((d,i) => `<input type="checkbox" id="d${i}" value="${esc(d)}" ${selected.includes(d) ? "checked" : ""}><label for="d${i}">${esc(d)}</label>`).join("")}
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="comment">Пожелания или вопросы</label>
+      <textarea id="comment" maxlength="1000">${esc(INV.comment)}</textarea>
+    </div>
+
+    <button type="submit" class="btn solid" id="send">Отправить ответ</button>
+    <p class="error" id="err" role="alert" hidden></p>`;
+
+  if (freeSeats){
+    const box = $("#extras");
+    const add = (name = "", child = false) => {
+      if (box.children.length >= freeSeats) return;
+      const row = document.createElement("div");
+      row.className = "extra";
+      row.innerHTML = `
+        <input type="text" placeholder="Имя и фамилия" aria-label="Имя спутника" value="${esc(name)}" maxlength="80">
+        <label class="check"><input type="checkbox" ${child ? "checked" : ""}> ребёнок</label>
+        <button type="button" class="icon-btn" aria-label="Убрать">×</button>`;
+      row.querySelector(".icon-btn").onclick = () => { row.remove(); sync(); };
+      box.appendChild(row);
+      sync();
+      if (!name) row.querySelector("input").focus();
+    };
+    const sync = () => { $("#addExtra").hidden = box.children.length >= freeSeats; };
+    $("#addExtra").onclick = () => add();
+    extras.filter(p => p[ansKey] !== "Не придёт").forEach(p => add(p.name, p.child));
+    sync();
+  }
+
+  form.onsubmit = e => { e.preventDefault(); submit(main); };
+}
+
+async function submit(main){
+  const ansKey = CONFIG.event === "svadba" ? "answerSvadba" : "answerRospis";
+  const err = $("#err");
+  err.hidden = true;
+  const people = main.map((p, i) => ({ name: p.name, answer: (document.querySelector(`input[name=p${i}]:checked`) || {}).value }));
+  if (people.some(p => !p.answer)){
+    err.textContent = people.length > 1 ? "Отметьте ответ для каждого из приглашения." : "Выберите один из вариантов ответа.";
+    err.hidden = false;
+    return;
+  }
+  const extras = [...document.querySelectorAll("#extras .extra")].map(r => ({
+    name: r.querySelector("input[type=text]").value.trim(),
+    child: r.querySelector("input[type=checkbox]").checked,
+    answer: "Придёт"
+  })).filter(x => x.name);
+  const payload = {
+    code: INV.code, event: CONFIG.event, people, extras,
+    menu: $("#menu").value.trim(),
+    drinks: [...document.querySelectorAll(".chips input:checked")].map(x => x.value),
+    comment: $("#comment").value.trim()
+  };
+
+  const btn = $("#send");
+  btn.disabled = true; btn.textContent = "Отправляем…";
+  try {
+    if (CONFIG.apiUrl && INV.code !== "DEMO"){
+      await fetch(CONFIG.apiUrl, { method:"POST", mode:"no-cors",
+        headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      // ответ no-cors не читается — перечитываем приглашение и сверяем
+      const fresh = await jsonp(CONFIG.apiUrl, { g: INV.code });
+      const saved = fresh.ok && people.every(p => (fresh.people.find(x => x.name === p.name) || {})[ansKey] === p.answer);
+      if (!saved) throw new Error("not saved");
+      INV = fresh;
+    } else {
+      await new Promise(r => setTimeout(r, 600));
+      people.forEach(p => { const x = INV.people.find(y => y.name === p.name); if (x) x[ansKey] = p.answer; });
+      INV.people = INV.people.filter(p => !p.fromSite).concat(extras.map(x => ({ name:x.name, child:x.child, fromSite:true, [ansKey]:"Придёт" })));
+      Object.assign(INV, { menu: payload.menu, drinks: payload.drinks.join(", "), comment: payload.comment });
+    }
+    showDone(people, extras);
+  } catch (e) {
+    err.textContent = "Не получилось отправить ответ. Проверьте интернет и нажмите «Отправить ответ» ещё раз. Если не выходит, напишите нам.";
+    err.hidden = false;
+  } finally {
+    btn.disabled = false; btn.textContent = "Отправить ответ";
+  }
+}
+
+function showDone(people, extras){
+  const v = voice(INV);
+  const label = val => ({ "Придёт":"будет", "Не придёт":"не сможет", "Под вопросом":"пока не знает" })[val];
+  const anyone = people.some(p => p.answer === "Придёт");
+  $("#form").hidden = true;
+  const d = $("#done");
+  d.hidden = false;
+  d.innerHTML = `<div class="done">
+    <h3>${anyone ? "Спасибо, ждём!" : "Спасибо, что ответили"}</h3>
+    <ul>
+      ${people.map(p => `<li>${esc(shortName(p.name))}: ${label(p.answer)}</li>`).join("")}
+      ${extras.map(x => `<li>${esc(x.name)}${x.child ? " (ребёнок)" : ""}: будет</li>`).join("")}
+    </ul>
+    <p class="hint" style="margin:0 0 14px">Если планы изменятся, ${v.tell} нам или поменяйте ответ здесь до ${esc(CONFIG.rsvpDeadline)}.</p>
+    <button type="button" class="btn" id="edit">Изменить ответ</button>
+  </div>`;
+  $("#edit").onclick = () => { renderForm(); $("#rsvp").scrollIntoView({behavior:"smooth"}); };
+  d.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+/* ================= ЗАПУСК ================= */
+async function load(){
+  renderStatic();
+  const code = (new URLSearchParams(location.search).get("g") || "").trim().toUpperCase();
+  const demo = !CONFIG.apiUrl || code === "DEMO";
+  if (demo){
+    const bar = $("#demoBar");
+    bar.hidden = false;
+    const show = key => {
+      bar.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.demo === key));
+      if (key === "nocode") return renderLetter("nocode");
+      INV = JSON.parse(JSON.stringify(DEMO[key]));
+      renderLetter("ok");
+    };
+    bar.querySelectorAll("button").forEach(b => b.onclick = () => show(b.dataset.demo));
+    return show("pair");
+  }
+  if (!code) return renderLetter("nocode");
+  try {
+    const data = await jsonp(CONFIG.apiUrl, { g: code });
+    if (!data.ok) return renderLetter(data.error === "not_found" ? "notfound" : "offline");
+    INV = data;
+    renderLetter("ok");
+  } catch (e) {
+    renderLetter("offline");
+  }
+}
+
+// длина линии реки для анимации
+document.querySelectorAll(".river path.draw").forEach(p => p.style.setProperty("--len", p.getTotalLength()));
+load();
+</script>
+</body>
+</html>
