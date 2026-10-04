@@ -46,6 +46,14 @@ a{color:var(--red)}
 .names .row:last-child{padding-left:2.4em}
 .names .cap{font-family:var(--script);color:var(--red);font-size:1.9em;line-height:0;vertical-align:-.12em;margin-right:-.04em}
 .names .amp{font-family:var(--script);color:var(--red);font-size:1.3em;margin-left:.15em}
+.role-title{margin:0;padding:44px 0 0;font:400 30px/1.1 var(--script);color:var(--red)}
+.role-title+.names{padding-top:14px}
+.block.outline{color:var(--ink)}
+.block.outline::before{background:transparent;border:1.5px solid var(--red)}
+.block.outline::after{display:none}
+.block.outline h2{color:var(--red)}
+.block.outline p+p{margin-top:8px}
+.witness{padding:36px 0 0}
 .yes{margin:10px 0 0;font:400 24px/1.2 var(--script);color:var(--muted);transform:rotate(-3deg)}
 
 /* ---------- письмо ---------- */
@@ -166,6 +174,7 @@ footer b{color:var(--ink);font-weight:500}
     <span>Демо, так увидит гость:</span>
     <button type="button" data-demo="pair">пара + место для спутника</button>
     <button type="button" data-demo="solo">один гость на «ты»</button>
+    <button type="button" data-demo="witness">свидетельница</button>
     <button type="button" data-demo="nocode">без личной ссылки</button>
     <span style="margin-left:6px">Фраза:</span>
     <button type="button" data-tag="а мы женимся!">а мы женимся!</button>
@@ -176,6 +185,7 @@ footer b{color:var(--ink);font-weight:500}
 
 <div class="card">
   <header>
+    <p class="role-title" id="roleTitle" hidden></p>
     <h1 class="names">
       <span class="row"><span class="cap">М</span>атвей<span class="amp">&amp;</span></span>
       <span class="row"><span class="cap">З</span>лата</span>
@@ -215,6 +225,13 @@ footer b{color:var(--ink);font-weight:500}
     <div id="venue"></div>
   </section>
   <div class="btns" id="venueBtns"></div>
+
+  <section class="witness" id="witness" hidden>
+    <div class="block outline">
+      <h2 id="witnessTitle">Только для тебя</h2>
+      <div id="witnessText"></div>
+    </div>
+  </section>
 
   <section class="dress">
     <h2>Дресс-код</h2>
@@ -294,7 +311,10 @@ const DEMO = {
           people:[{name:"Анна Иванова"},{name:"Дмитрий Иванов"}], menu:"", drinks:"", comment:"" },
   solo: { ok:true, code:"DEMO", appeal:"Егор", tone:"ты", seats:1,
           events:{rospis:true, svadba:true},
-          people:[{name:"Егор Пеньков"}], menu:"", drinks:"", comment:"" }
+          people:[{name:"Егор Пеньков"}], menu:"", drinks:"", comment:"" },
+  witness: { ok:true, code:"DEMO", appeal:"Катя", tone:"ты", seats:2,
+          events:{rospis:true, svadba:true}, role:"свидетельница", roleName:"Катя (Питер)", witnessInfo:"",
+          people:[{name:"Катя (Питер)", role:"свидетельница"}], menu:"", drinks:"", comment:"" }
 };
 
 /* ================= ТЕКСТЫ ================= */
@@ -393,11 +413,13 @@ function renderLetter(state){
       notfound: "Не нашли приглашение по этой ссылке. Проверьте, что ссылка скопирована целиком, или напишите нам.",
       offline: "Не получилось загрузить ваше приглашение. Проверьте интернет и обновите страницу."
     }[state];
+    $("#roleTitle").hidden = true; $("#witness").hidden = true;
     box.innerHTML = `<p class="greet">7 августа мы станем мужем и женой</p><p>${text}</p>`;
     $("#rsvp").hidden = true;
     return;
   }
   const v = voice(INV);
+  renderWitness(v);
   if (!INV.events.rospis){
     box.innerHTML = `<p class="greet">${esc(v.greet)}</p>
       <p>Свадьбу мы празднуем летом 2028 года, и ${v.you} в списке наших гостей. Подробности появятся по этой же ссылке ближе к дате.</p>`;
@@ -409,8 +431,38 @@ function renderLetter(state){
   box.innerHTML = `
     <p class="greet">${esc(v.greet)}</p>
     <p>7 августа 2027 года мы станем мужем и женой. Нам очень хочется разделить этот день с ${v.youIns}: сначала регистрация, а потом ужин в кругу самых близких.</p>
+    ${witnessAsk(v)}
     <p>Ниже можно отметить, ${v.can} ли ${v.you} прийти. Если планы потом поменяются, ответ можно будет изменить по этой же ссылке.</p>`;
   renderForm();
+}
+
+/* ---------- свидетели ---------- */
+function witnessAsk(v){
+  if (!INV || !INV.role) return "";
+  const female = INV.role === "свидетельница";
+  const noun = female ? "нашей свидетельницей" : "нашим свидетелем";
+  if (v.plural){
+    const first = shortName(INV.roleName || "").split(" ")[0];
+    return `<p>А ещё, ${esc(first)}, у нас к тебе особенная просьба: мы очень хотим, чтобы именно ты ${female ? "стала" : "стал"} ${noun}.</p>`;
+  }
+  const dat = v.you === "ты" ? "тебе" : (v.you === "Вы" ? "Вам" : "вам");
+  const verb = v.you === "ты" ? (female ? "стала" : "стал") : "стали";
+  return `<p>И у нас к ${dat} особенная просьба: мы очень хотим, чтобы именно ${v.you} ${verb} ${noun}.</p>`;
+}
+function renderWitness(v){
+  const on = !!(INV && INV.role);
+  $("#roleTitle").hidden = !on;
+  $("#witness").hidden = !on;
+  if (!on) return;
+  const female = INV.role === "свидетельница";
+  $("#roleTitle").textContent = female ? "Приглашение для свидетельницы" : "Приглашение для свидетеля";
+  $("#witnessTitle").textContent = v.plural ? (female ? "Для свидетельницы" : "Для свидетеля")
+    : (v.you === "ты" ? "Только для тебя" : (v.you === "Вы" ? "Только для Вас" : "Только для вас"));
+  const info = String(INV.witnessInfo || "").trim();
+  const whom = v.plural ? "" : (v.you === "ты" ? " для тебя" : (v.you === "Вы" ? " для Вас" : " для вас"));
+  $("#witnessText").innerHTML = info
+    ? info.split(/\n+/).map(x => `<p>${esc(x)}</p>`).join("")
+    : `<p>Подробности${whom} мы добавим чуть позже. Они появятся здесь, по этой же ссылке.</p>`;
 }
 
 function renderForm(){
@@ -424,9 +476,11 @@ function renderForm(){
   $("#rsvpLead").hidden = !v.plural;
 
   const ansKey = CONFIG.event === "svadba" ? "answerSvadba" : "answerRospis";
-  const main = INV.people.filter(p => !p.fromSite);
+  const original = INV.people.filter(p => !p.fromSite);
+  // в форме — только те, кого зовём на это событие
+  const main = original.filter(p => CONFIG.event === "svadba" ? p.svadba !== false : p.rospis !== false);
   const extras = INV.people.filter(p => p.fromSite);
-  const freeSeats = Math.max(0, (INV.seats || 0) - main.length);
+  const freeSeats = Math.max(0, (INV.seats || 0) - original.length);
 
   const personRow = (p, i) => `
     <div class="person">
